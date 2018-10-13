@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<launch>
+    <!--解析点云数据-->
+     <node  name="cloud_node" pkg="rslidar_pointcloud" type="cloud_node" output="screen" >
+        <param name="curves_path" value="$(find rslidar_pointcloud)/data/LM890DATA/curves.csv" />
+        <param name="angle_path" value="$(find rslidar_pointcloud)/data/LM890DATA/angle.csv" />
+        <param name="channel_path" value="$(find rslidar_pointcloud)/data/LM890DATA/ChannelNum.csv" />
+      </node>
+      
+    <node pkg ="lidar_perception" name="lidar_perception" type="groundDetectNode" output="screen">
+            <param name="sub_obd_topic" value="/apollo/sensor/velodyne16/compensator/PointCloud2_fusion"/>
+ 	<!--param name="sub_topics" value="/apollo/sensor/velodyne16/compensator/PointCloud2_fusion"/-->
+            <param name="sub_topics" value="/apollo/sensor/velodyne16/compensator/PointCloud2_1"/>
+            <param name="pub_points_topic" value="/noground_points"/>
+            <param name="pub_ground_points_topic" value="/ground_points"/>
+            <param name="pub_array_topic" value="/markers"/>
+            <param name="planefit_thre" value="0.2"/>
+            <param name="ground_thre" value="0.2"/>
+            <param name="abs_ground_height" value="-1.8"/>
+    </node>
+
+    <node pkg="rviz" type="rviz" name="rviz" respawn="true" args="-d $(find lidar_perception)/launch/demo.rviz"/>
+
+</launch>
+

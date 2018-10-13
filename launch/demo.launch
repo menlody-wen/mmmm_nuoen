@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>      
+    <node pkg ="lidar_perception" name="lidar_perception" type="groundDetectNode" output="screen">
+            <param name="sub_points_topic" value="/apollo/sensor/velodyne64/compensator/PointCloud2"/>
+             <param name="sub_radar_topic" value="/apollo/sensor/cloud_radar"/>
+            <param name="pub_points_topic" value="/noground_points"/>
+            <param name="pub_ground_points_topic" value="/ground_points"/>
+            <param name="pub_raw_points_topic" value="/raw_points"/>
+            <param name="pub_array_topic" value="/markers"/>
+            <param name="planefit_thre" value="0.2"/>
+            <param name="ground_thre" value="0.2"/>
+            <param name="abs_ground_height" value="-0.8"/>
+    </node>
+
+    <node pkg="rviz" type="rviz" name="rviz" respawn="true" args="-d $(find lidar_perception)/launch/demo.rviz"/>
+
+</launch>
